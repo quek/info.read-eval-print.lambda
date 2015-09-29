@@ -8,10 +8,10 @@
                (mapcar (^ list _z _y _x) '("A" "B") '(a b) '(1 2))))
 
 (assert (equal '(1 2 3)
-               (funcall (^ identity _rest) 1 2 3)))
+               (funcall (^ identity _.x) 1 2 3)))
 
 (assert (equal '(2 1 3 4)
-               (funcall (^ apply #'list _b _a _rest) 1 2 3 4)))
+               (funcall (^ apply #'list _b _a _.x) 1 2 3 4)))
 
 (assert (equal "a"
                (with-output-to-string (*standard-output*)
@@ -20,3 +20,10 @@
 (assert (equal "cba"
                (with-output-to-string (*standard-output*)
                  (funcall (^ (princ _z) (princ _y) (princ _x)) #\a #\b #\c))))
+
+(assert (equal 10
+               (funcall (^ (+ _a
+                              (funcall (^ (+ _a _b _c))
+                                       2)
+                              _c))
+                        1 3)))
